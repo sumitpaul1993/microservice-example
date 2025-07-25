@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import Connection from './config/db.config.js';
+import { DBConnection } from './config/db.config.js';
 const app = new express();
 import AuthRouter from './route/auth.route.js';
 
 // db connection 
-new Connection()
+DBConnection()
 
 // express config
 app.use(cors())

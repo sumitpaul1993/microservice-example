@@ -1,18 +1,13 @@
 import express from 'express'
-import { AuthController } from '../controller/auth.controller.js';
-import { AuthMiddleware } from '../middleware/auth.middleware.js';
+import { login, register, whoami } from '../controller/auth.controller.js';
+import { AuthCheckLoginMiddleware } from '../middleware/auth.middleware.js';
 
 const AuthRouter = express.Router()
 
-// handler
-const AuthHandler = new AuthController();
-
-//middleware
-const authMiddleware = new AuthMiddleware()
 
 //define routes
-AuthRouter.post('/register', AuthHandler.register)
-AuthRouter.post('/login', AuthHandler.login)
-AuthRouter.get('/whoami', authMiddleware.checkLogin, AuthHandler.whoami)
+AuthRouter.post('/register', register)
+AuthRouter.post('/login', login)
+AuthRouter.get('/whoami', AuthCheckLoginMiddleware, whoami)
 
 export default AuthRouter;

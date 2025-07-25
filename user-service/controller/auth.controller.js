@@ -1,32 +1,25 @@
-import { ResponseHelper } from "../helper/response.helper.js";
-import { AuthService } from "../service/auth.service.js"
-import { AuthValidator } from "../validator/auth.validator.js";
+import { responseValidationErrorHelper } from "../helper/response.helper.js";
+import { loginService, registerService, whoamiService } from "../service/auth.service.js";
+import { authLoginValidator, authRegisterValidator } from "../validator/auth.validator.js";
 
-// init classes
-const authService = new AuthService();
-const authValidator = new AuthValidator();
-const responseHelper = new ResponseHelper();
-
-export class AuthController {
-    async register(req, res) {
-        const { error } = authValidator.validateRegister(req.body);
-        if (error) {
-            return res.status(422).json(responseHelper.validationError(error.message))
-        }
-
-        return authService.register(req, res);
+export const register = async function (req, res) {
+    const { error } = authRegisterValidator(req.body);
+    if (error) {
+        return res.status(422).json(responseValidationErrorHelper(error.message))
     }
 
-    async login(req, res) {
-        const { error } = authValidator.validateLogin(req.body);
-        if (error) {
-            return res.status(422).json(responseHelper.validationError(error.message))
-        }
-        
-        return authService.login(req, res);
+    return registerService(req, res);
+}
+
+export const login = async function (req, res) {
+    const { error } = authLoginValidator(req.body);
+    if (error) {
+        return res.status(422).json(responseValidationErrorHelper(error.message))
     }
 
-    async whoami(req, res) {        
-        return authService.whoami(req, res);
-    }
+    return loginService(req, res);
+}
+
+export const whoami = async function (req, res) {
+    return whoamiService(req, res);
 }
