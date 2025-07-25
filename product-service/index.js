@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import { DBConnection } from './config/db.config.js';
+import { EnvConfig } from './config/env.config.js';
+import ProductRouter from './route/product.route.js';
 const app = new express();
-import AuthRouter from './route/auth.route.js';
+EnvConfig()
 
 // db connection 
 DBConnection()
@@ -17,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 //define routers
-app.use('/auth', AuthRouter)
+app.use('/product', ProductRouter)
 
 app.listen(process.env.PORT, () => {
     console.log(`user service listen on port ${process.env.PORT}`)
