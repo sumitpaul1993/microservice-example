@@ -38,4 +38,13 @@ product management
 }
 ```
 
-## 1. Get All Product:  http://localhost:3001/product (GET)
+## 2. Get All Product:  http://localhost:3001/product (GET)
+
+
+# cart-service
+cart management
+
+## 1. Add Product to Cart:  http://localhost:3002/cart/:productId (POST)
+
+
+## 2. Remove Product from Cart:  http://localhost:3002/:productId (DELETE)

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-export const cartAddValidator = function (data) {
+export const cartProductIdValidator = function (data) {
     const schema = Joi.object({
         productId: Joi.string().required()
     }).required()
