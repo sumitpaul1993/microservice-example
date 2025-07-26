@@ -1,7 +1,8 @@
+import { KafkaConsumerConfig, KafkaProducerConfig } from "../config/kafka.config.js";
 import { bcryptCompareDataHelper, bcryptHashDataHelper } from "../helper/bcrypt.helper.js";
 import { JWTSingTokenHelper } from "../helper/jwt.helper.js";
 import { responseExceptionErrorHelper, responseInternalErrorHelper, responseSuccessHelper } from "../helper/response.helper.js";
-import { authCreateNewUserRepo,authGetUserDetailsRepo } from "../repository/auth.repository.js";
+import { authCreateNewUserRepo, authGetUserDetailsRepo } from "../repository/auth.repository.js";
 
 export const registerService = async function (req, res) {
     const { name, email, password } = req.body;
@@ -76,5 +77,23 @@ export const loginService = async function (req, res) {
 }
 
 export const whoamiService = async function (req, res) {
+    return res.status(200).json(responseSuccessHelper(req.user))
+}
+
+export const validateLoginService = async function (req, res) {
+    // send value in kafka
+    const producer = await KafkaProducerConfig()
+    await producer.send({
+        topic: 'validate-login-topic',
+        messages: [
+            {
+                value: JSON.stringify(req.user),
+                key: "user"
+            }
+        ]
+    })
+    
+    // await producer.disconnect();
+    // await consumer.disconnect()
     return res.status(200).json(responseSuccessHelper(req.user))
 }
